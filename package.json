@@ -8,6 +8,7 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
+    "@mistralai/mistralai": "^1.3.1",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -20,6 +21,7 @@
     "@types/react": "18.2.45",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
+    "tailwindcss": "^3.4.15",
     "typescript": "5.3.3"
   }
 }
