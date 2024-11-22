@@ -3,8 +3,10 @@
 import { ArrowUpOutlined, UserOutlined } from "@ant-design/icons";
 import { Mistral } from "@mistralai/mistralai";
 import { Avatar, Button, Empty, Form, Input, Space } from "antd";
-import moment from "moment";
-import { FormEvent, useState } from "react";
+import { formatDate } from "./date";
+import { FormEvent, useEffect, useState } from "react";
+import { Popover } from 'antd';
+import Content from "./components/Content";
 
 export interface Content{
   message?:string;
@@ -58,6 +60,17 @@ async function run(e:FormEvent) {
 
 }
 
+function saveData():void{
+
+  if (localStorage) {
+    localStorage.setItem("chat",JSON.stringify(chat));
+  }
+}
+
+// useEffect(()=>{
+//   return
+// },[])
+
   function load(c: Chat): void {
     console.log(c);
   }
@@ -66,30 +79,32 @@ async function run(e:FormEvent) {
     <div className="grid grid-rows-12 grid-cols-12 h-screen overflow-hidden">
       <div className="row-span-12 row-start-1 col-span-2 col-start-1 border-r border-r-gray-300">
         <h1 className="m-2 text-3xl hover:cursor-pointer hover:rounded-md hover:border hover:shadow-inner">Chat-Bot</h1>
-          <ul>
-              {
-                chat.length>0?chat.map(c=>(
-                <li onClick={()=>load(c)} className="m-2 truncate hover:cursor-pointer hover:rounded-md hover:border hover:shadow-inner" key={c.id}>
-                  {moment(c.id).fromNow()}</li>)): <Empty />
-              }
-          </ul>
+        {
+          chat.length>0?chat.map(c=>(
+            <Popover key={c.id} content={<div className="flex flex-col">
+              <h5>{c.name}</h5>
+              <h6 className="self-end text-gray-600">{formatDate(c.id)}</h6>
+            </div>} placement="bottomRight">
+                  <h5 onClick={()=>load(c)} className="m-2 p-1 truncate hover:cursor-pointer hover:rounded-md hover:border hover:shadow-inner" key={c.id}>
+                  {c.name}</h5>
+            </Popover>)): <Empty />
+        }
       </div>
-      <div className="row-span-1 row-start-1 col-span-10 flex justify-between items-center px-2 col-start-3">
+      <div className="row-span-1 px-3 row-start-1 col-span-10 flex justify-between items-center col-start-3">
       <h1 className="p-1 text-3xl hover:cursor-pointer hover:rounded-md hover:border hover:shadow-inner">Chat-Bot</h1>
       <Avatar icon={<UserOutlined/>} className="hover:cursor-pointer"/>
       </div>
-        <div className="row-span-10 p-2 row-start-2  col-span-10 col-start-3 overflow-y-auto">
+        <div className="row-span-10 px-10 sm:px-24 md:px-48 row-start-2   col-span-10 col-start-3 overflow-y-auto">
           <h4 className="font-bold text-gray-500">How can i help you today?</h4>
           {
             content?.map(c=>(
-              <ul key={c.id} className="flex flex-col" style={{listStyle:"none"}}>
-                <li className="self-end p-2 rounded-3xl bg-gray-200" >{c.message}</li>
-                <li ><p className="text-justify">{c.response}</p></li>
-              </ul>
+              <div key={c.id} className="flex flex-col">
+                <Content message={c.message!} content={c.response!}/>
+              </div>
             ))
           }
         </div>
-        <Form onSubmitCapture={(e)=>run(e)} size="large" className="row-span-1 px-4 row-start-12 col-span-10 col-start-3 flex items-center">
+        <Form onSubmitCapture={(e)=>run(e)} size="large" className="row-span-1 px-10 sm:px-14 md:px-16 row-start-12 col-span-10 col-start-3 flex items-center">
             <Space.Compact size="large" className="w-full">
               <Input onChange={(e)=>setMessage(e.target.value)} value={message} className="rounded-full"/>
               <Button type="primary" htmlType="submit" loading={isSubmit} className="rounded-r-full" icon={<ArrowUpOutlined />}/>
