@@ -4,7 +4,7 @@ import { ArrowUpOutlined, UserOutlined } from "@ant-design/icons";
 import { Mistral } from "@mistralai/mistralai";
 import { Avatar, Button, Empty, Form, Input, Space } from "antd";
 import { formatDate } from "./date";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Popover } from 'antd';
 import Content from "./components/Content";
 

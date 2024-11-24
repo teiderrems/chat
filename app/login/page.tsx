@@ -1,14 +1,12 @@
+"use client"
 import { signIn } from "../auth"
  
 export default function SignIn() {
   return (
-    <form
-      action={async () => {
-        "use server"
-        await signIn("github")
-      }}
+    <
+      // onSubmit={() => signIn("github")}
     >
-      <button type="submit">Sign in</button>
-    </form>
+      <button type="submit" onClick={() => signIn("github")}>Sign in</button>
+    </>
   )
 }

@@ -14,16 +14,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     clientId: process.env.AUTH_GITHUB_ID!,
     clientSecret: process.env.AUTH_GITHUB_SECRET!,
   })],
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) { // User is available during sign-in
-        token.id = user.id
-      }
-      return token
-    },
-    session({ session, token }) {
-      //session.user!.id! = token.id
-      return session
-    },
-  },
+  // callbacks: {
+  //   jwt({ token, user }) {
+  //     if (user) { // User is available during sign-in
+  //       token.id = user.id
+  //     }
+  //     return token
+  //   },
+  //   session({ session, token }) {
+  //     //session.user!.id! = token.id
+  //     return session
+  //   },
+  // },
 })
